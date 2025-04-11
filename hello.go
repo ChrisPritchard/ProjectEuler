@@ -2,6 +2,7 @@ package main
 
 func main() {
 	problem_001()
+	problem_002()
 }
 
 func problem_001() {
@@ -15,4 +16,22 @@ func problem_001() {
 		}
 	}
 	println("problem 001: ", sum)
+}
+
+func problem_002() {
+	t1 := 1
+	t2 := 2
+	sum := 2
+	for {
+		n := t1 + t2
+		if n > 4_000_000 {
+			break
+		}
+		if n%2 == 0 {
+			sum += n
+		}
+		t1 = t2
+		t2 = n
+	}
+	println("problem 002: ", sum)
 }
