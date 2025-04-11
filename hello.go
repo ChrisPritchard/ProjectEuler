@@ -1,8 +1,14 @@
 package main
 
+import (
+	"fmt"
+	"sort"
+)
+
 func main() {
 	problem_001()
 	problem_002()
+	problem_003()
 }
 
 func problem_001() {
@@ -15,7 +21,7 @@ func problem_001() {
 			sum += j
 		}
 	}
-	println("problem 001: ", sum)
+	fmt.Println("problem 001: ", sum)
 }
 
 func problem_002() {
@@ -33,5 +39,31 @@ func problem_002() {
 		t1 = t2
 		t2 = n
 	}
-	println("problem 002: ", sum)
+	fmt.Println("problem 002: ", sum)
+}
+
+func problem_003() {
+	target := 600851475143
+	primes := []int{}
+	result := []int{}
+	rem := target
+	for n := 2; n < rem; n++ {
+		is_valid := true
+		for _, p := range primes {
+			if n == p || n%p == 0 {
+				is_valid = false
+				break
+			}
+		}
+		if !is_valid {
+			continue
+		}
+		primes = append(primes, n)
+		if rem%n == 0 {
+			result = append(result, n)
+			rem = target / n
+		}
+	}
+	sort.Ints(result)
+	fmt.Println("problem 003: ", result[len(result)-1])
 }
