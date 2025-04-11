@@ -46,24 +46,39 @@ func problem_003() {
 	target := 600851475143
 	primes := []int{}
 	result := []int{}
-	rem := target
-	for n := 2; n < rem; n++ {
-		is_valid := true
+
+	is_prime := func(n int) bool {
 		for _, p := range primes {
-			if n == p || n%p == 0 {
-				is_valid = false
-				break
+			if n == p {
+				return true
+			}
+			if n%p == 0 {
+				return false
 			}
 		}
-		if !is_valid {
-			continue
-		}
 		primes = append(primes, n)
-		if rem%n == 0 {
-			result = append(result, n)
-			rem = target / n
-		}
+		return true
 	}
+
+	find_first_prime_divisor := func(v int) int {
+		for n := 2; n < v; n++ {
+			if v%n == 0 && is_prime(n) {
+				return n
+			}
+		}
+		return v
+	}
+
+	rem := target
+	for {
+		n := find_first_prime_divisor(rem)
+		result = append(result, n)
+		if n == rem {
+			break
+		}
+		rem = rem / n
+	}
+
 	sort.Ints(result)
 	fmt.Println("problem 003: ", result[len(result)-1])
 }
