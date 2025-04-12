@@ -12,6 +12,7 @@ func main() {
 	problem_004()
 	problem_005()
 	problem_006()
+	problem_007()
 }
 
 func problem_001() {
@@ -141,4 +142,33 @@ func problem_006() {
 		sum_of_squares += i * i
 	}
 	fmt.Println("problem 006: ", sum*sum-sum_of_squares)
+}
+
+func problem_007() {
+	primes := []int{2}
+
+	is_prime := func(n int) bool {
+		for _, p := range primes {
+			if n == p {
+				return true
+			}
+			if n%p == 0 {
+				return false
+			}
+		}
+		primes = append(primes, n)
+		return true
+	}
+
+	for len(primes) <= 10000 {
+		n := primes[len(primes)-1] + 1
+		for {
+			if is_prime(n) {
+				break
+			}
+			n++
+		}
+	}
+
+	fmt.Println("problem 007: ", primes[len(primes)-1])
 }
