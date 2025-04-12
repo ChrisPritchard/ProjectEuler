@@ -17,6 +17,7 @@ func main() {
 	problem_009()
 	problem_010()
 	problem_011()
+	problem_012()
 }
 
 func problem_001() {
@@ -291,4 +292,35 @@ func problem_011() {
 	}
 
 	fmt.Println("problem 011:", max)
+}
+
+func problem_012() {
+
+	find_divisor_count := func(n int) int {
+		divisors := make(map[int]struct{})
+		for i := 1; i <= n; i++ {
+			if n%i != 0 {
+				continue
+			}
+			_, found := divisors[i]
+			if !found {
+				divisors[i] = struct{}{}
+				divisors[n/i] = struct{}{}
+			}
+		}
+		fmt.Println(divisors)
+		return len(divisors)
+	}
+
+	triangle_number := 0
+	k := 1
+	for {
+		triangle_number += k
+		if find_divisor_count(triangle_number) > 500 {
+			fmt.Println("problem 012:", triangle_number)
+			return
+		}
+		k++
+	}
+
 }
