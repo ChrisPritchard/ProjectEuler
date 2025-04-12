@@ -11,6 +11,7 @@ func main() {
 	problem_003()
 	problem_004()
 	problem_005()
+	problem_006()
 }
 
 func problem_001() {
@@ -131,4 +132,13 @@ func problem_005() {
 		lcm = least_common_multiple(lcm, i)
 	}
 	fmt.Println("problem 005: ", lcm)
+}
+
+func problem_006() {
+	sum, sum_of_squares := 0, 0
+	for i := 1; i <= 100; i++ {
+		sum += i
+		sum_of_squares += i * i
+	}
+	fmt.Println("problem 006: ", sum*sum-sum_of_squares)
 }
