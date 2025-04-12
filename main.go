@@ -9,6 +9,7 @@ func main() {
 	problem_001()
 	problem_002()
 	problem_003()
+	problem_004()
 }
 
 func problem_001() {
@@ -81,4 +82,35 @@ func problem_003() {
 
 	sort.Ints(result)
 	fmt.Println("problem 003: ", result[len(result)-1])
+}
+
+func problem_004() {
+
+	is_palindrome := func(n int) bool {
+		if n == 0 {
+			return false
+		}
+		v := n
+		r := 0
+		for v > 0 {
+			r = r*10 + v%10
+			v = v / 10
+		}
+		return n == r
+	}
+
+	var max *int
+	for i := 999; i >= 100; i-- {
+		for j := i; j >= 100; j-- {
+			v := i * j
+			if max != nil && *max > v {
+				continue
+			}
+			if is_palindrome(v) {
+				max = &v
+			}
+		}
+	}
+
+	fmt.Println("problem 004: ", *max)
 }
