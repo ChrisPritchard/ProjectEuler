@@ -14,6 +14,7 @@ func main() {
 	problem_006()
 	problem_007()
 	problem_008()
+	problem_009()
 }
 
 func problem_001() {
@@ -191,4 +192,18 @@ func problem_008() {
 	}
 
 	fmt.Println("problem 008: ", max)
+}
+
+func problem_009() {
+	found := false
+	for a := 1; a < 1000 && !found; a++ {
+		for b := a + 1; a+b < 1000 && !found; b++ {
+			for c := b + 1; a+b+c == 1000 && !found; c++ {
+				if a*a+b*b == c*c {
+					fmt.Println("problem 009: ", a*b*c)
+					return
+				}
+			}
+		}
+	}
 }
