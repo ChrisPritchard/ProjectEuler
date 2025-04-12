@@ -15,6 +15,7 @@ func main() {
 	problem_007()
 	problem_008()
 	problem_009()
+	problem_010()
 }
 
 func problem_001() {
@@ -195,15 +196,35 @@ func problem_008() {
 }
 
 func problem_009() {
-	found := false
-	for a := 1; a < 1000 && !found; a++ {
-		for b := a + 1; a+b < 1000 && !found; b++ {
-			for c := b + 1; a+b+c == 1000 && !found; c++ {
-				if a*a+b*b == c*c {
+	for a := 1; a < 1000; a++ {
+		for b := a + 1; b < 1000; b++ {
+			for c := b + 1; c < 1000; c++ {
+				if (a*a)+(b*b) == (c*c) && a+b+c == 1000 {
 					fmt.Println("problem 009: ", a*b*c)
 					return
 				}
 			}
 		}
 	}
+}
+
+func problem_010() {
+	primes := make([]bool, 2_000_000)
+
+	sum := 0
+	i := 2
+	for {
+		if !primes[i] {
+			sum += i
+			for j := i + i; j < len(primes); j += i {
+				primes[j] = true
+			}
+		}
+		i++
+		if i >= len(primes) {
+			break
+		}
+	}
+
+	fmt.Println("problem 010: ", sum)
 }
