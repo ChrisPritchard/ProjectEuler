@@ -10,6 +10,7 @@ func main() {
 	problem_002()
 	problem_003()
 	problem_004()
+	problem_005()
 }
 
 func problem_001() {
@@ -113,4 +114,21 @@ func problem_004() {
 	}
 
 	fmt.Println("problem 004: ", *max)
+}
+
+func problem_005() {
+	greatest_common_divisor := func(a, b int) int {
+		for b != 0 {
+			a, b = b, a%b
+		}
+		return a
+	}
+	least_common_multiple := func(a, b int) int {
+		return (a / greatest_common_divisor(a, b)) * b
+	}
+	lcm := 1
+	for i := 2; i <= 20; i++ {
+		lcm = least_common_multiple(lcm, i)
+	}
+	fmt.Println("problem 005: ", lcm)
 }
