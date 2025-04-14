@@ -16,8 +16,6 @@ func Problems_001_010() {
 	problem_008()
 	problem_009()
 	problem_010()
-	problem_011()
-	problem_012()
 }
 
 func problem_001() {
