@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+	"math/big"
 )
 
 func main() {
@@ -231,13 +231,12 @@ func problem_013() {
 		"53503534226472524250874054075591789781264330331690",
 	}
 
-	sum := 0
+	sum := new(big.Int)
 	for _, v := range n {
-		s := v[len(v)-10:]
-		p, _ := strconv.Atoi(s)
-		sum += p
+		p := new(big.Int)
+		p.SetString(v, 10)
+		sum.Add(sum, p)
 	}
 
-	r := strconv.Itoa(sum)
-	fmt.Println("problem 013:", r[len(r)-10])
+	fmt.Println("problem 013:", sum.String()[:10])
 }
