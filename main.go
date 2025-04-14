@@ -11,6 +11,7 @@ func main() {
 	problem_011()
 	problem_012()
 	problem_013()
+	problem_014()
 }
 
 func problem_011() {
@@ -240,4 +241,37 @@ func problem_013() {
 
 	first_ten_digits := sum.String()[:10]
 	fmt.Println("problem 013:", first_ten_digits)
+}
+
+func collatz(n int, memo *map[int]int) int {
+	count, exists := (*memo)[n]
+	if exists {
+		return count
+	}
+	var next int
+	if n%2 == 0 {
+		next = collatz(n/2, memo)
+	} else {
+		next = collatz(n*3+1, memo)
+	}
+
+	(*memo)[n] = 1 + next
+	return 1 + next
+}
+
+func problem_014() {
+
+	memo := make(map[int]int)
+	memo[1] = 1
+
+	n, max := 0, 0
+	for i := 2; i < 1_000_000; i++ {
+		count := collatz(i, &memo)
+		if count > max {
+			max = count
+			n = i
+		}
+	}
+
+	fmt.Println("problem 014:", n)
 }
