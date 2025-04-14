@@ -232,11 +232,12 @@ func problem_013() {
 	}
 
 	sum := new(big.Int)
-	for _, v := range n {
-		p := new(big.Int)
-		p.SetString(v, 10)
-		sum.Add(sum, p)
+	tmp := new(big.Int)
+	for _, big_num := range n {
+		tmp.SetString(big_num, 10)
+		sum.Add(sum, tmp)
 	}
 
-	fmt.Println("problem 013:", sum.String()[:10])
+	first_ten_digits := sum.String()[:10]
+	fmt.Println("problem 013:", first_ten_digits)
 }
