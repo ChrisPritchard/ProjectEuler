@@ -15,6 +15,7 @@ func main() {
 	problem_015()
 	problem_016()
 	problem_017()
+	problem_018()
 }
 
 func problem_011() {
@@ -395,4 +396,50 @@ func problem_017() {
 	}
 
 	fmt.Println("problem 017:", sum)
+}
+
+func problem_018() {
+	triangle := [][]int{
+		{75},
+		{95, 64},
+		{17, 47, 82},
+		{18, 35, 87, 10},
+		{20, 4, 82, 47, 65},
+		{19, 1, 23, 75, 3, 34},
+		{88, 2, 77, 73, 7, 63, 67},
+		{99, 65, 4, 28, 6, 16, 70, 92},
+		{41, 41, 26, 56, 83, 40, 80, 70, 33},
+		{41, 48, 72, 33, 47, 32, 37, 16, 94, 29},
+		{53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14},
+		{70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57},
+		{91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48},
+		{63, 66, 4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31},
+		{04, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4, 23},
+	}
+	sums := make([][]int, len(triangle))
+	sums[0] = []int{triangle[0][0]}
+
+	for i := range len(triangle) - 1 {
+		sums[i+1] = make([]int, len(triangle[i+1]))
+		for j := range triangle[i] {
+			n := sums[i][j]
+			n1 := triangle[i+1][j] + n
+			n2 := triangle[i+1][j+1] + n
+			if sums[i+1][j] < n1 {
+				sums[i+1][j] = n1
+			}
+			if sums[i+1][j+1] < n2 {
+				sums[i+1][j+1] = n2
+			}
+		}
+	}
+
+	max := 0
+	for _, v := range sums[len(sums)-1] {
+		if v > max {
+			max = v
+		}
+	}
+
+	fmt.Println("problem 018:", max)
 }
