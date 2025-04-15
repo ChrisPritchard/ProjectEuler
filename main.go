@@ -20,6 +20,7 @@ func main() {
 	problem_016()
 	problem_017()
 	problem_018()
+	problem_019()
 
 	problem_067()
 }
@@ -454,6 +455,47 @@ func problem_018() {
 	}
 	max := triangle_counter_generic(triangle)
 	fmt.Println("problem 018:", max)
+}
+
+func problem_019() {
+	day_of_week := 0
+	day_of_month := 0
+	month := 0
+	year := 1900
+
+	month_days := []int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+
+	is_leap := func() bool {
+		return year%4 == 0 && (year%100 != 0 || year%400 == 0)
+	}
+
+	sunday_count := 0
+
+	for year < 2001 {
+		if day_of_week == 6 && day_of_month == 0 && year >= 1901 {
+			sunday_count++
+		}
+		day_of_week++
+		day_of_month++
+
+		if day_of_week == 7 {
+			day_of_week = 0
+		}
+		month_days := month_days[month]
+		if month == 1 && is_leap() {
+			month_days = 29
+		}
+		if day_of_month == month_days {
+			day_of_month = 0
+			month++
+		}
+		if month == 12 {
+			month = 0
+			year++
+		}
+	}
+
+	fmt.Println("problem 019:", sunday_count)
 }
 
 func problem_067() {
