@@ -13,6 +13,7 @@ func main() {
 	problem_013()
 	problem_014()
 	problem_015()
+	problem_016()
 }
 
 func problem_011() {
@@ -303,5 +304,27 @@ func problem_015() {
 	}
 
 	fmt.Println("problem 015:", grid[m-1][n-1])
+}
 
+func problem_016() {
+	n := big.NewInt(2)
+	p := big.NewInt(2)
+	t := big.NewInt(10)
+
+	for range 999 {
+		n.Mul(n, p)
+	}
+
+	sum := 0
+	for {
+		if n.Cmp(big.NewInt(0)) == 0 {
+			break
+		}
+		digit := new(big.Int)
+		digit.Mod(n, t)
+		sum += int(digit.Int64())
+		n.Div(n, t)
+	}
+
+	fmt.Println("problem 016:", sum)
 }
