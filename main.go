@@ -14,6 +14,7 @@ func main() {
 	problem_014()
 	problem_015()
 	problem_016()
+	problem_017()
 }
 
 func problem_011() {
@@ -327,4 +328,71 @@ func problem_016() {
 	}
 
 	fmt.Println("problem 016:", sum)
+}
+
+func problem_017() {
+	words := []string{
+		"",
+		"one",
+		"two",
+		"three",
+		"four",
+		"five",
+		"six",
+		"seven",
+		"eight",
+		"nine",
+		"ten",
+		"eleven",
+		"twelve",
+		"thirteen",
+		"fourteen",
+		"fifteen",
+		"sixteen",
+		"seventeen",
+		"eighteen",
+		"nineteen",
+		"twenty",
+		"thirty",
+		"forty",
+		"fifty",
+		"sixty",
+		"seventy",
+		"eighty",
+		"ninety",
+		"hundred",
+		"thousand",
+		"and",
+	}
+
+	word_len := func(index int) int {
+		word := words[index]
+		return len(word)
+	}
+
+	sum := 0
+	for i := 1; ; i++ {
+		if i == 1000 {
+			sum += word_len(1) + word_len(len(words)-2) // one thousand
+			break
+		}
+		if i >= 100 {
+			hundreds := i / 100
+			sum += word_len(hundreds) + word_len(len(words)-3) // num hundred
+			if i%100 != 0 {
+				sum += word_len(len(words) - 1) // and
+			}
+		}
+		sub_hundred := i % 100
+		if sub_hundred <= 20 {
+			sum += word_len(sub_hundred) // one, two three etc
+			continue
+		}
+
+		tens := sub_hundred / 10
+		sum += word_len(20 + tens - 2)    // twenty, thirty, forty etc
+		sum += word_len(sub_hundred % 10) // one, two three etc
+	}
+
+	fmt.Println("problem 017:", sum)
 }
