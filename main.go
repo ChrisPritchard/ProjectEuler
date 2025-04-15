@@ -1,8 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"math/big"
+	"os"
+	"strconv"
+	"strings"
 )
 
 func main() {
@@ -16,6 +20,8 @@ func main() {
 	problem_016()
 	problem_017()
 	problem_018()
+
+	problem_067()
 }
 
 func problem_011() {
@@ -398,24 +404,8 @@ func problem_017() {
 	fmt.Println("problem 017:", sum)
 }
 
-func problem_018() {
-	triangle := [][]int{
-		{75},
-		{95, 64},
-		{17, 47, 82},
-		{18, 35, 87, 10},
-		{20, 4, 82, 47, 65},
-		{19, 1, 23, 75, 3, 34},
-		{88, 2, 77, 73, 7, 63, 67},
-		{99, 65, 4, 28, 6, 16, 70, 92},
-		{41, 41, 26, 56, 83, 40, 80, 70, 33},
-		{41, 48, 72, 33, 47, 32, 37, 16, 94, 29},
-		{53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14},
-		{70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57},
-		{91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48},
-		{63, 66, 4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31},
-		{04, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4, 23},
-	}
+func triangle_counter_generic(triangle [][]int) int {
+
 	sums := make([][]int, len(triangle))
 	sums[0] = []int{triangle[0][0]}
 
@@ -441,5 +431,48 @@ func problem_018() {
 		}
 	}
 
+	return max
+}
+
+func problem_018() {
+	triangle := [][]int{
+		{75},
+		{95, 64},
+		{17, 47, 82},
+		{18, 35, 87, 10},
+		{20, 4, 82, 47, 65},
+		{19, 1, 23, 75, 3, 34},
+		{88, 2, 77, 73, 7, 63, 67},
+		{99, 65, 4, 28, 6, 16, 70, 92},
+		{41, 41, 26, 56, 83, 40, 80, 70, 33},
+		{41, 48, 72, 33, 47, 32, 37, 16, 94, 29},
+		{53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14},
+		{70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57},
+		{91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48},
+		{63, 66, 4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31},
+		{04, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4, 23},
+	}
+	max := triangle_counter_generic(triangle)
 	fmt.Println("problem 018:", max)
+}
+
+func problem_067() {
+	triangle := make([][]int, 0)
+
+	file, _ := os.Open("0067_triangle.txt")
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		row := make([]int, 0)
+		for _, v := range strings.Fields(line) {
+			n, _ := strconv.Atoi(v)
+			row = append(row, n)
+		}
+		triangle = append(triangle, row)
+	}
+
+	max := triangle_counter_generic(triangle)
+	fmt.Println("problem 067:", max)
 }
