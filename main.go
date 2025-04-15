@@ -1,37 +1,47 @@
 package main
 
-import (
-	"bufio"
-	"fmt"
-	"os"
-	"strconv"
-	"strings"
-)
+import "fmt"
 
 func main() {
 	Problems_001_010()
 	Problems_011_020()
 
-	problem_067()
+	problem_021()
 }
 
-func problem_067() {
-	triangle := make([][]int, 0)
-
-	file, _ := os.Open("0067_triangle.txt")
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-		row := make([]int, 0)
-		for _, v := range strings.Fields(line) {
-			n, _ := strconv.Atoi(v)
-			row = append(row, n)
+func problem_021() {
+	sum_divisors := func(n int) int {
+		sum := 1
+		for i := 2; i <= n/2; i++ {
+			if n%i == 0 {
+				sum += i
+			}
 		}
-		triangle = append(triangle, row)
+		return sum
 	}
 
-	max := triangle_counter_generic(triangle)
-	fmt.Println("problem 067:", max)
+	amicable_sum := 0
+	added := make(map[int]struct{})
+	for a := range 10_000 {
+		if a < 2 {
+			continue
+		}
+		b := sum_divisors(a)
+		if a == b {
+			continue
+		}
+		dB := sum_divisors(b)
+		if dB == a {
+			if _, exists := added[a]; !exists {
+				added[a] = struct{}{}
+				amicable_sum += a
+			}
+			if _, exists := added[b]; !exists {
+				added[b] = struct{}{}
+				amicable_sum += b
+			}
+		}
+	}
+
+	fmt.Println("problem 021:", amicable_sum)
 }

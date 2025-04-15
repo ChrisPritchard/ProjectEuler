@@ -1,8 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"math/big"
+	"os"
+	"strconv"
+	"strings"
 )
 
 func Problems_011_020() {
@@ -14,6 +18,7 @@ func Problems_011_020() {
 	problem_016()
 	problem_017()
 	problem_018()
+	problem_067()
 	problem_019()
 	problem_020()
 }
@@ -511,4 +516,25 @@ func problem_020() {
 	}
 
 	fmt.Println("problem 020:", sum)
+}
+
+func problem_067() {
+	triangle := make([][]int, 0)
+
+	file, _ := os.Open("0067_triangle.txt")
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		row := make([]int, 0)
+		for _, v := range strings.Fields(line) {
+			n, _ := strconv.Atoi(v)
+			row = append(row, n)
+		}
+		triangle = append(triangle, row)
+	}
+
+	max := triangle_counter_generic(triangle)
+	fmt.Println("problem 067:", max)
 }
