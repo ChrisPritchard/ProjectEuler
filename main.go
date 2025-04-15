@@ -12,6 +12,7 @@ func main() {
 	problem_012()
 	problem_013()
 	problem_014()
+	problem_015()
 }
 
 func problem_011() {
@@ -243,30 +244,31 @@ func problem_013() {
 	fmt.Println("problem 013:", first_ten_digits)
 }
 
-func collatz(n int, memo *map[int]int) int {
-	count, exists := (*memo)[n]
-	if exists {
-		return count
-	}
-	var next int
-	if n%2 == 0 {
-		next = collatz(n/2, memo)
-	} else {
-		next = collatz(n*3+1, memo)
-	}
-
-	(*memo)[n] = 1 + next
-	return 1 + next
-}
-
 func problem_014() {
 
 	memo := make(map[int]int)
 	memo[1] = 1
 
+	var collatz func(int) int
+	collatz = func(n int) int {
+		count, exists := memo[n]
+		if exists {
+			return count
+		}
+		var next int
+		if n%2 == 0 {
+			next = collatz(n / 2)
+		} else {
+			next = collatz(n*3 + 1)
+		}
+
+		memo[n] = 1 + next
+		return 1 + next
+	}
+
 	n, max := 0, 0
 	for i := 2; i < 1_000_000; i++ {
-		count := collatz(i, &memo)
+		count := collatz(i)
 		if count > max {
 			max = count
 			n = i
@@ -274,4 +276,32 @@ func problem_014() {
 	}
 
 	fmt.Println("problem 014:", n)
+}
+
+func problem_015() {
+	m, n := 21, 21
+
+	// given a grid, and a set of points, calculate how many ways a given point can reach
+	grid := make([][]int, m)
+	for i := range grid {
+		grid[i] = make([]int, n)
+	}
+	grid[0][0] = 1
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if i == 0 && j == 0 {
+				continue
+			}
+			if i > 0 {
+				grid[i][j] += grid[i-1][j]
+			}
+			if j > 0 {
+				grid[i][j] += grid[i][j-1]
+			}
+		}
+	}
+
+	fmt.Println("problem 015:", grid[m-1][n-1])
+
 }
