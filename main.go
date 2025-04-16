@@ -1,12 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"sort"
+	"strings"
+)
 
 func main() {
 	Problems_001_010()
 	Problems_011_020()
 
 	problem_021()
+	problem_022()
 }
 
 func problem_021() {
@@ -44,4 +51,33 @@ func problem_021() {
 	}
 
 	fmt.Println("problem 021:", amicable_sum)
+}
+
+func problem_022() {
+	file, _ := os.Open("0022_names.txt")
+	defer file.Close()
+
+	words := []string{}
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		parts := strings.Split(line, ",")
+		for _, p := range parts {
+			words = append(words, strings.Trim(p, "\""))
+		}
+	}
+
+	sort.Strings(words)
+
+	sum := 0
+	for i, v := range words {
+		letter_sum := 0
+		for _, c := range v {
+			letter_sum += int(c) - int('A') + 1
+		}
+		sum += letter_sum * (i + 1)
+	}
+
+	fmt.Println("problem 022:", sum)
 }
