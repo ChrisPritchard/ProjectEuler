@@ -14,6 +14,7 @@ func main() {
 
 	problem_021()
 	problem_022()
+	problem_023()
 }
 
 func problem_021() {
@@ -80,4 +81,46 @@ func problem_022() {
 	}
 
 	fmt.Println("problem 022:", sum)
+}
+
+func problem_023() {
+
+	memo := make(map[int]bool)
+
+	abundant := func(n int) bool {
+		if v, exists := memo[n]; exists {
+			return v
+		}
+		if n < 12 {
+			return false
+		}
+		sum := 1
+		for i := 2; i <= n/2; i++ {
+			if n%i == 0 {
+				sum += i
+			}
+		}
+		res := sum > n
+		memo[n] = res
+		return res
+	}
+
+	not_a_sum := func(n int) bool {
+		for i := 12; i <= n/2; i++ {
+			if abundant(i) && abundant(n-i) {
+				return false
+			}
+		}
+		return true
+	}
+
+	sum := 0
+
+	for n := range 28123 {
+		if not_a_sum(n) {
+			sum += n
+		}
+	}
+
+	fmt.Println("problem 023:", sum)
 }
