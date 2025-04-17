@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/big"
 	"os"
+	"slices"
 	"sort"
 	"strings"
 )
@@ -143,11 +144,11 @@ func problem_024() {
 	k := len(available)
 	result := make([]byte, k)
 
-	for i := 0; i < k; i++ {
+	for i := range k {
 		f := fact(k - 1 - i)
 		index := n / f
 		result[i] = available[index]
-		available = append(available[:index], available[index+1:]...)
+		available = slices.Delete(available, index, index+1)
 		n -= index * f
 	}
 
