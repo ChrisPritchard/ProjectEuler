@@ -7,6 +7,7 @@ import (
 	"os"
 	"slices"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -19,6 +20,7 @@ func main() {
 	problem_023()
 	problem_024()
 	problem_025()
+	problem_026()
 }
 
 func problem_021() {
@@ -169,4 +171,40 @@ func problem_025() {
 	}
 
 	fmt.Println("problem 025:", i)
+}
+
+func problem_026() {
+
+	var cycle func(int, int, map[int]map[int]struct{}) (string, bool)
+	cycle = func(rem int, d int, memo map[int]map[int]struct{}) (string, bool) {
+		if m, exists := memo[rem]; exists {
+			if _, exists2 := m[d]; exists2 {
+				return "", true
+			}
+		} else {
+			memo[rem] = make(map[int]struct{})
+		}
+		memo[rem][d] = struct{}{}
+		if d > rem {
+			return cycle(rem*10, d, memo)
+		}
+		res := strconv.Itoa(rem / d)
+		if rem%d == 0 {
+			return res, false
+		}
+		next, cycles := cycle(rem%d, d, memo)
+		return res + next, cycles
+	}
+
+	max := 0
+	d := 0
+	for i := 2; i < 1000; i++ {
+		rem, cycles := cycle(1, i, make(map[int]map[int]struct{}))
+		if cycles && len(rem) > max {
+			d = i
+			max = len(rem)
+		}
+	}
+
+	fmt.Println("problem 026:", d)
 }
