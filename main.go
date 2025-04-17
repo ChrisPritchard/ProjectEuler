@@ -15,6 +15,7 @@ func main() {
 	problem_021()
 	problem_022()
 	problem_023()
+	problem_024()
 }
 
 func problem_021() {
@@ -123,4 +124,30 @@ func problem_023() {
 	}
 
 	fmt.Println("problem 023:", sum)
+}
+
+func problem_024() {
+
+	var fact func(n int) int
+	fact = func(n int) int {
+		if n < 2 {
+			return 1
+		}
+		return n * fact(n-1)
+	}
+
+	available := []byte("0123456789")
+	n := 1_000_000 - 1
+	k := len(available)
+	result := make([]byte, k)
+
+	for i := 0; i < k; i++ {
+		f := fact(k - 1 - i)
+		index := n / f
+		result[i] = available[index]
+		available = append(available[:index], available[index+1:]...)
+		n -= index * f
+	}
+
+	fmt.Println("problem 024:", string(result))
 }
