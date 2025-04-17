@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math/big"
 	"os"
 	"sort"
 	"strings"
@@ -16,6 +17,7 @@ func main() {
 	problem_022()
 	problem_023()
 	problem_024()
+	problem_025()
 }
 
 func problem_021() {
@@ -150,4 +152,20 @@ func problem_024() {
 	}
 
 	fmt.Println("problem 024:", string(result))
+}
+
+func problem_025() {
+	f1 := big.NewInt(1)
+	f2 := big.NewInt(1)
+	n := new(big.Int)
+	i := 2
+
+	for len(n.String()) < 1000 {
+		n.Add(f1, f2)
+		f1.Set(f2)
+		f2.Set(n)
+		i++
+	}
+
+	fmt.Println("problem 025:", i)
 }
