@@ -21,6 +21,7 @@ func main() {
 	problem_024()
 	problem_025()
 	problem_026()
+	problem_027()
 }
 
 func problem_021() {
@@ -207,4 +208,59 @@ func problem_026() {
 	}
 
 	fmt.Println("problem 026:", d)
+}
+
+func problem_027() {
+
+	primes := make([]bool, 2_000_000)
+
+	i := 2
+	for {
+		if !primes[i] {
+			for j := i + i; j < len(primes); j += i {
+				primes[j] = true
+			}
+		}
+		i++
+		if i >= len(primes) {
+			break
+		}
+	}
+
+	is_prime := func(n int) bool {
+		if n < 0 {
+			n *= -1
+		}
+		if n > len(primes) {
+			panic("greater than calculated prime range:" + strconv.Itoa(n))
+		}
+		return !primes[n]
+	}
+
+	quad := func(a, b int) int {
+		var n, count int
+		for {
+			res := n*n + a*n + b
+			if is_prime(res) {
+				count++
+				n++
+			} else {
+				break
+			}
+		}
+		return count
+	}
+
+	var max, result int
+	for a := -999; a <= 999; a++ {
+		for b := -1000; b <= 1000; b++ {
+			latest := quad(a, b)
+			if latest > max {
+				max = latest
+				result = a * b
+			}
+		}
+	}
+
+	fmt.Println("problem 027:", result)
 }
