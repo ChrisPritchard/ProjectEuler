@@ -22,6 +22,7 @@ func main() {
 	problem_025()
 	problem_026()
 	problem_027()
+	problem_028()
 }
 
 func problem_021() {
@@ -263,4 +264,18 @@ func problem_027() {
 	}
 
 	fmt.Println("problem 027:", result)
+}
+
+func problem_028() {
+
+	sum := 1
+	for n := 3; n <= 1001; n += 2 {
+		tr := n * n
+		tl := tr - (n - 1)
+		bl := tl - (n - 1)
+		br := bl - (n - 1)
+		sum += tr + tl + bl + br
+	}
+
+	fmt.Println("problem 028:", sum)
 }
