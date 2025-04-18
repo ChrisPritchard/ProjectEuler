@@ -23,6 +23,7 @@ func main() {
 	problem_026()
 	problem_027()
 	problem_028()
+	problem_029()
 }
 
 func problem_021() {
@@ -278,4 +279,27 @@ func problem_028() {
 	}
 
 	fmt.Println("problem 028:", sum)
+}
+
+func problem_029() {
+
+	seen := make(map[*big.Int]struct{})
+	results := []big.Int{}
+
+	for a := 2; a <= 100; a++ {
+		for b := 2; b <= 100; b++ {
+			n := big.NewInt(int64(a))
+			p := big.NewInt(int64(a))
+			for bn := b; bn >= 2; bn-- {
+				n.Mul(n, p)
+			}
+			if _, exists := seen[n]; !exists {
+				seen[n] = struct{}{}
+				fmt.Println(n)
+				results = append(results, *n)
+			}
+		}
+	}
+
+	fmt.Println("problem 029:", len(results))
 }
