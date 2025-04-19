@@ -283,8 +283,8 @@ func problem_028() {
 
 func problem_029() {
 
-	seen := make(map[*big.Int]struct{})
-	results := []big.Int{}
+	seen := make(map[string]struct{})
+	results := []string{}
 
 	for a := 2; a <= 100; a++ {
 		for b := 2; b <= 100; b++ {
@@ -293,10 +293,11 @@ func problem_029() {
 			for bn := b; bn >= 2; bn-- {
 				n.Mul(n, p)
 			}
-			if _, exists := seen[n]; !exists {
-				seen[n] = struct{}{}
+			s := n.String()
+			if _, exists := seen[s]; !exists {
+				seen[s] = struct{}{}
 				fmt.Println(n)
-				results = append(results, *n)
+				results = append(results, s)
 			}
 		}
 	}
