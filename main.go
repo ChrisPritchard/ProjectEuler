@@ -24,6 +24,7 @@ func main() {
 	problem_027()
 	problem_028()
 	problem_029()
+	problem_030()
 }
 
 func problem_021() {
@@ -303,4 +304,8 @@ func problem_029() {
 	}
 
 	fmt.Println("problem 029:", len(results))
+}
+
+func problem_030() {
+
 }
