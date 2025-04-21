@@ -93,5 +93,5 @@ func problem_032() {
 		full_sum += tester(all_permuts[v])
 	}
 
-	fmt.Println("problem 031:", full_sum)
+	fmt.Println("problem 032:", full_sum)
 }
