@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"math"
+	"slices"
 )
 
 func main() {
@@ -11,6 +13,7 @@ func main() {
 
 	problem_031()
 	problem_032()
+	problem_033()
 }
 
 func problem_031() {
@@ -50,42 +53,52 @@ func problem_032() {
 	all_permuts := expander(9, make([]int, 9))
 	seen := make(map[int]struct{})
 
+	num := func(vals []int) int {
+		res := 0
+		slices.Reverse(vals)
+		for i, v := range vals {
+			res += v * int(math.Pow(10., float64(i)))
+		}
+		return res
+	}
+
 	tester := func(set []int) int {
-		sum := 0
+
+		c := num(set[5 : 8+1])
+		if _, exists := seen[c]; exists {
+			return 0
+		}
 
 		a := set[0]
-		b := set[1]*1000 + set[2]*100 + set[3]*10 + set[4]
-		c := set[5]*1000 + set[6]*100 + set[7]*10 + set[8]
-		if _, exists := seen[c]; !exists && a*b == c {
-			sum += c
+		b := num(set[1 : 4+1])
+
+		if a*b == c {
 			seen[c] = struct{}{}
+			return c
 		}
 
-		a = set[0]*1000 + set[1]*100 + set[2]*10 + set[3]
+		a = num(set[0 : 3+1])
 		b = set[4]
-		c = set[5]*1000 + set[6]*100 + set[7]*10 + set[8]
-		if _, exists := seen[c]; !exists && a*b == c {
-			sum += c
+		if a*b == c {
 			seen[c] = struct{}{}
+			return c
 		}
 
-		a = set[0]*10 + set[1]
-		b = set[2]*100 + set[3]*10 + set[4]
-		c = set[5]*1000 + set[6]*100 + set[7]*10 + set[8]
-		if _, exists := seen[c]; !exists && a*b == c {
-			sum += c
+		a = num(set[0 : 1+1])
+		b = num(set[2 : 4+1])
+		if a*b == c {
 			seen[c] = struct{}{}
+			return c
 		}
 
-		a = set[0]*100 + set[1]*10 + set[2]
-		b = set[3]*10 + set[4]
-		c = set[5]*1000 + set[6]*100 + set[7]*10 + set[8]
-		if _, exists := seen[c]; !exists && a*b == c {
-			sum += c
+		a = num(set[0 : 2+1])
+		b = num(set[3 : 4+1])
+		if a*b == c {
 			seen[c] = struct{}{}
+			return c
 		}
 
-		return sum
+		return 0
 	}
 
 	full_sum := 0
@@ -94,4 +107,8 @@ func problem_032() {
 	}
 
 	fmt.Println("problem 032:", full_sum)
+}
+
+func problem_033() {
+
 }
