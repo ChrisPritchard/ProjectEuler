@@ -14,6 +14,7 @@ func main() {
 	problem_031()
 	problem_032()
 	problem_033()
+	problem_034()
 }
 
 func problem_031() {
@@ -128,4 +129,37 @@ func problem_033() {
 
 	simplified := denominators / numerators
 	fmt.Println("problem 033:", simplified)
+}
+
+func problem_034() {
+	var fact func(int) int
+	fact = func(n int) int {
+		if n < 2 {
+			return 1
+		}
+		return n * fact(n-1)
+	}
+
+	facts := make(map[int]int)
+	for i := range 10 {
+		facts[i] = fact(i)
+	}
+
+	digit_sum := func(n int) int {
+		sum := 0
+		for n != 0 {
+			sum += facts[n%10]
+			n /= 10
+		}
+		return sum
+	}
+
+	total := 0
+	for i := 3; i < 100000; i++ {
+		if digit_sum(i) == i {
+			total += i
+		}
+	}
+
+	fmt.Println("problem 034:", total)
 }
