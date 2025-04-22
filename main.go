@@ -15,6 +15,7 @@ func main() {
 	problem_032()
 	problem_033()
 	problem_034()
+	problem_035()
 }
 
 func problem_031() {
@@ -162,4 +163,34 @@ func problem_034() {
 	}
 
 	fmt.Println("problem 034:", total)
+}
+
+func problem_035() {
+	primes := make([]bool, 1_000_000)
+
+	i := 2
+	for {
+		if !primes[i] {
+			for j := i + i; j < len(primes); j += i {
+				primes[j] = true
+			}
+		}
+		i++
+		if i >= len(primes) {
+			break
+		}
+	}
+
+	circular := 0
+	for i, v := range primes {
+		if v {
+			continue
+		}
+
+		// calculate permutations of i
+		// check each permutation is prime
+		// add to circular count if true
+	}
+
+	fmt.Println("problem 035:", circular)
 }
