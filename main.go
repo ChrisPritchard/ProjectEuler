@@ -110,5 +110,22 @@ func problem_032() {
 }
 
 func problem_033() {
+	numerators := 1
+	denominators := 1
 
+	for i := 1; i < 10; i++ {
+		for j := range 10 {
+			for k := 1; k < 10; k++ {
+				for m := 1; m < 10; m++ {
+					if i != j && k != m && j == k && float64(i*10+j)/float64(k*10+m) == (float64(i)/float64(m)) {
+						numerators *= i*10 + j
+						denominators *= k*10 + m
+					}
+				}
+			}
+		}
+	}
+
+	simplified := denominators / numerators
+	fmt.Println("problem 033:", simplified)
 }
