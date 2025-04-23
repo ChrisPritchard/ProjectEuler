@@ -21,6 +21,7 @@ func main() {
 	problem_037()
 	problem_038()
 	problem_039()
+	problem_040()
 }
 
 func problem_031() {
@@ -335,4 +336,19 @@ func problem_039() {
 		}
 	}
 	fmt.Println("problem 039:", best_p)
+}
+
+func problem_040() {
+	digits := []int{}
+	i := 1
+	for len(digits) < 1_000_000 {
+		digits = append(digits, value_to_digits(i)...)
+		i++
+	}
+	d := func(n int) int {
+		return digits[n-1]
+	}
+
+	result := d(1) * d(10) * d(100) * d(1_000) * d(10_000) * d(100_000) * d(1_000_000)
+	fmt.Println("problem 040:", result)
 }
