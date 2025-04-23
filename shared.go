@@ -61,8 +61,23 @@ func digits_to_value(digits []int) int {
 func permute(values []int) [][]int {
 
 	var expander func([]int, []int) [][]int
-	expander = func(acc, rem []int) [][]int {
-
+	expander = func(current []int, rem []int) [][]int {
+		results := [][]int{}
+		for i, v := range rem {
+			next := make([]int, len(current)+1)
+			copy(next, current)
+			next[len(next)-1] = v
+			if len(rem) > 1 {
+				new_rem := make([]int, len(rem))
+				copy(new_rem, rem)
+				new_rem = slices.Delete(new_rem, i, i+1)
+				results = append(results, expander(next, new_rem)...)
+			} else {
+				results = append(results, next)
+			}
+		}
+		return results
 	}
 
+	return expander([]int{}, values)
 }
