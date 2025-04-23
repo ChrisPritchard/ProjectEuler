@@ -167,18 +167,15 @@ func problem_034() {
 
 func problem_035() {
 	prime_list := prime_sieve(1_000_000)
-	prime_set := make(map[int]struct{})
-	for p := range prime_list {
-		prime_set[prime_list[p]] = struct{}{}
-	}
+	prime_set := NewSet(prime_list...)
 
 	count := 0
-	checked := make(map[int]struct{})
-	for p := range prime_list {
-		if _, exists := checked[prime_list[p]]; exists {
+	checked := NewSet[int]()
+	for _, p := range prime_list {
+		if checked.Contains(p) {
 			continue
 		}
-		digits := value_to_digits(prime_list[p])
+		digits := value_to_digits(p)
 		circles := []int{}
 		for _, v := range permute(digits) {
 			circles = append(circles, digits_to_value(v))
@@ -187,12 +184,12 @@ func problem_035() {
 		circles = slices.Compact(circles)
 
 		valid := true
-		for c := range circles {
-			if _, exists := prime_set[circles[c]]; !exists {
+		for _, c := range circles {
+			if prime_set.Contains(c) {
 				valid = false
 				break
 			}
-			checked[circles[c]] = struct{}{}
+			checked.Add(c)
 		}
 		if valid {
 			fmt.Println(circles)
