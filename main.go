@@ -19,6 +19,7 @@ func main() {
 	problem_035()
 	problem_036()
 	problem_037()
+	problem_038()
 }
 
 func problem_031() {
@@ -281,4 +282,35 @@ func problem_037() {
 	}
 
 	fmt.Println("problem 037:", sum)
+}
+
+func problem_038() {
+
+	pandigital := func(digits []int) bool {
+		if len(digits) != 9 {
+			return false
+		}
+		uniq := NewSet(digits...)
+		return uniq.Size() == 9 && !uniq.Contains(0)
+	}
+
+	max := 0
+	for i := range 1_000_000 {
+		digits := []int{}
+		for j := 1; j < 10; j++ {
+			digits = append(digits, value_to_digits(i*j)...)
+			if len(digits) > 9 {
+				break
+			}
+			if pandigital(digits) {
+				value := digits_to_value(digits)
+				if value > max {
+					max = value
+					break
+				}
+			}
+		}
+	}
+
+	fmt.Println("problem 038:", max)
 }
