@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"slices"
+	"strconv"
 )
 
 func main() {
@@ -16,6 +17,7 @@ func main() {
 	problem_033()
 	problem_034()
 	problem_035()
+	problem_036()
 }
 
 func problem_031() {
@@ -208,4 +210,35 @@ func problem_035() {
 	}
 
 	fmt.Println("problem 035:", count)
+}
+
+func problem_036() {
+	sum := 0
+	for i := 1; i < 1_000_000; i++ {
+		digits := value_to_digits(i)
+		valid := true
+		for j := 0; j < len(digits)/2; j++ {
+			if digits[j] != digits[len(digits)-1-j] {
+				valid = false
+				break
+			}
+		}
+		if !valid {
+			continue
+		}
+		binary := strconv.FormatInt(int64(i), 2)
+		for j := 0; j < len(binary)/2; j++ {
+			if binary[j] != binary[len(binary)-1-j] {
+				valid = false
+				break
+			}
+		}
+
+		if !valid {
+			continue
+		}
+		sum += i
+	}
+
+	fmt.Println("problem 036:", sum)
 }
