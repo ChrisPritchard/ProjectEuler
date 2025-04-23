@@ -4,7 +4,7 @@ import "slices"
 
 // calculate all primes in the range 1 to max using the prime sieve method
 func prime_sieve(max int) []int {
-	res := []int{1}
+	res := []int{}
 	sieve := make([]bool, max)
 
 	for i := 2; i < len(sieve); i++ {
