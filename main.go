@@ -169,31 +169,41 @@ func problem_035() {
 	prime_list := prime_sieve(1_000_000)
 	prime_set := NewSet(prime_list...)
 
+	rotations := func(n int) []int {
+		digits := value_to_digits(n)
+		res := []int{}
+		for i := range len(digits) {
+			rotation := make([]int, len(digits))
+			for j := range len(digits) {
+				rotation[j] = digits[(i+j)%len(digits)]
+			}
+			res = append(res, digits_to_value(rotation))
+		}
+
+		return res
+	}
+
 	count := 0
 	checked := NewSet[int]()
 	for _, p := range prime_list {
 		if checked.Contains(p) {
 			continue
 		}
-		digits := value_to_digits(p)
-		circles := []int{}
-		for _, v := range permute(digits) {
-			circles = append(circles, digits_to_value(v))
-		}
-		slices.Sort(circles)
-		circles = slices.Compact(circles)
+		rotations := rotations(p)
+
+		slices.Sort(rotations)
+		rotations = slices.Compact(rotations)
 
 		valid := true
-		for _, c := range circles {
-			if prime_set.Contains(c) {
+		for _, c := range rotations {
+			if !prime_set.Contains(c) {
 				valid = false
 				break
 			}
 			checked.Add(c)
 		}
 		if valid {
-			fmt.Println(circles)
-			count += len(circles)
+			count += len(rotations)
 		}
 	}
 
