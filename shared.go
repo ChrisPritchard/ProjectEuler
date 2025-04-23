@@ -34,6 +34,7 @@ func pown(base int, power uint) int {
 	return n
 }
 
+// reverses a slice and returns the result, without modifying the initial slice
 func nrev[T comparable](slice []T) []T {
 	n := make([]T, len(slice))
 	for i := range slice {
