@@ -18,6 +18,7 @@ func main() {
 	problem_034()
 	problem_035()
 	problem_036()
+	problem_037()
 }
 
 func problem_031() {
@@ -241,4 +242,43 @@ func problem_036() {
 	}
 
 	fmt.Println("problem 036:", sum)
+}
+
+func problem_037() {
+
+	prime_list := prime_sieve(1_000_000)
+	prime_set := NewSet(prime_list...)
+
+	sum := 0
+
+	for _, p := range prime_list {
+		if p < 10 {
+			continue
+		}
+		digits := value_to_digits(p)
+		valid := true
+		for i := range len(digits) {
+			v := digits_to_value(digits[i:])
+			if !prime_set.Contains(v) {
+				valid = false
+				break
+			}
+		}
+		if !valid {
+			continue
+		}
+		for i := range len(digits) {
+			v := digits_to_value(digits[:len(digits)-i])
+			if !prime_set.Contains(v) {
+				valid = false
+				break
+			}
+		}
+		if !valid {
+			continue
+		}
+		sum += p
+	}
+
+	fmt.Println("problem 037:", sum)
 }

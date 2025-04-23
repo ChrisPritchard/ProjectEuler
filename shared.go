@@ -34,6 +34,14 @@ func pown(base int, power uint) int {
 	return n
 }
 
+func nrev[T comparable](slice []T) []T {
+	n := make([]T, len(slice))
+	for i := range slice {
+		n[len(n)-1-i] = slice[i]
+	}
+	return n
+}
+
 // separates a number into its digits, e.g. 123 becomes 1,2,3
 func value_to_digits(value int) []int {
 	res := []int{}
@@ -43,15 +51,13 @@ func value_to_digits(value int) []int {
 		value /= 10
 	}
 
-	slices.Reverse(res)
-	return res
+	return nrev(res)
 }
 
 // converts digits into a number, e.g. 1,2,3 becomes 123
 func digits_to_value(digits []int) int {
 	sum := 0
-	slices.Reverse(digits)
-	for i, v := range digits {
+	for i, v := range nrev(digits) {
 		sum += pown(10, uint(i)) * v
 	}
 	return sum
