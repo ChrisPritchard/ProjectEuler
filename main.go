@@ -20,6 +20,7 @@ func main() {
 	problem_036()
 	problem_037()
 	problem_038()
+	problem_039()
 }
 
 func problem_031() {
@@ -313,4 +314,25 @@ func problem_038() {
 	}
 
 	fmt.Println("problem 038:", max)
+}
+
+func problem_039() {
+	max := 0
+	best_p := 0
+	for p := range 1000 {
+		count := 0
+		for a := 1; a < p/2; a++ {
+			for b := a; b < p/2; b++ {
+				c := p - a - b
+				if c*c == a*a+b*b {
+					count++
+				}
+			}
+		}
+		if count > max {
+			max = count
+			best_p = p
+		}
+	}
+	fmt.Println("problem 039:", best_p)
 }
