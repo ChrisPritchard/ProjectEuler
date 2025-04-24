@@ -1,6 +1,11 @@
 package main
 
-import "slices"
+import (
+	"bufio"
+	"os"
+	"slices"
+	"strings"
+)
 
 // calculate all primes in the range 1 to max using the prime sieve method
 func prime_sieve(max int) []int {
@@ -87,6 +92,25 @@ func permute(values []int) [][]int {
 	}
 
 	return expander([]int{}, values)
+}
+
+func read_words(filename string) ([]string, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	words := []string{}
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		parts := strings.Split(line, ",")
+		for _, p := range parts {
+			words = append(words, strings.Trim(p, "\""))
+		}
+	}
+	return words, nil
 }
 
 type Set[T comparable] map[T]struct{}

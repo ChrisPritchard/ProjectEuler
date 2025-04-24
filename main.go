@@ -9,6 +9,7 @@ func main() {
 	Problems_031_040()
 
 	problem_041()
+	problem_042()
 }
 
 func problem_041() {
@@ -34,4 +35,36 @@ func problem_041() {
 			return
 		}
 	}
+}
+
+func problem_042() {
+	words, _ := read_words("0042_words.txt")
+
+	is_triangle_number := func(n int) bool {
+		i := 1
+		for {
+			t := (i * (i + 1)) / 2
+			if t == n {
+				return true
+			} else if t > n {
+				break
+			}
+			i++
+		}
+		return false
+	}
+
+	count := 0
+	for _, word := range words {
+		sum := 0
+		for _, c := range word {
+			sum += (int(c) - int('A')) + 1
+		}
+
+		if is_triangle_number(sum) {
+			count++
+		}
+	}
+
+	fmt.Println("problem 042:", count)
 }
