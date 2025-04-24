@@ -12,9 +12,8 @@ func main() {
 }
 
 func problem_041() {
-	//options := permute([]int{9,8,7,6,5,4,3,2,1})
-
-	primes := prime_sieve(987_654_321)
+	// divisibility rule by 3 says 8, 9 digit pandigitals are all composite
+	primes := prime_sieve(7_654_321)
 	for p := len(primes) - 1; p > 0; p-- {
 		digits := value_to_digits(primes[p])
 		unique := NewSet(digits...)
