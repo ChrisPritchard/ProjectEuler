@@ -10,6 +10,7 @@ func main() {
 
 	problem_041()
 	problem_042()
+	problem_043()
 }
 
 func problem_041() {
@@ -67,4 +68,21 @@ func problem_042() {
 	}
 
 	fmt.Println("problem 042:", count)
+}
+
+func problem_043() {
+	options := permute([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9})
+	sum := 0
+
+	check := func(o []int, i int, p int) bool {
+		return digits_to_value([]int{o[i-1], o[i], o[i+1]})%p == 0
+	}
+
+	for _, o := range options {
+		if check(o, 2, 2) && check(o, 3, 3) && check(o, 4, 5) && check(o, 5, 7) && check(o, 6, 11) && check(o, 7, 13) && check(o, 8, 17) {
+			sum += digits_to_value(o)
+		}
+	}
+
+	fmt.Println("problem 043:", sum)
 }
