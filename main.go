@@ -1,16 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
-	Problems_001_010()
-	Problems_011_020()
-	Problems_021_030()
-	Problems_031_040()
+	// Problems_001_010()
+	// Problems_011_020()
+	// Problems_021_030()
+	// Problems_031_040()
 
-	problem_041()
-	problem_042()
-	problem_043()
+	// problem_041()
+	// problem_042()
+	// problem_043()
+	problem_044()
 }
 
 func problem_041() {
@@ -85,4 +88,29 @@ func problem_043() {
 	}
 
 	fmt.Println("problem 043:", sum)
+}
+
+func problem_044() {
+	pent := func(i int) int {
+		return (i * ((3 * i) - 1)) / 2
+	}
+	acc := NewSet[int]()
+	i := 1
+	for {
+		n := pent(i)
+		for j := 1; j < i; j++ {
+			n2 := pent(j)
+			n3 := n - n2
+			if n3 == n2 || !acc.Contains(n3) {
+				continue
+			}
+			diff := absi(n3 - n2)
+			if acc.Contains(diff) {
+				fmt.Println("problem 044:", diff)
+				return
+			}
+		}
+		acc.Add(n)
+		i++
+	}
 }

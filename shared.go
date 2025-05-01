@@ -39,6 +39,14 @@ func pown(base int, power uint) int {
 	return n
 }
 
+// simplem integer abs function
+func absi(n int) int {
+	if n < 0 {
+		return n * -1
+	}
+	return n
+}
+
 // reverses a slice and returns the result, without modifying the initial slice
 func nrev[T comparable](slice []T) []T {
 	n := make([]T, len(slice))
