@@ -19,6 +19,7 @@ func main() {
 	}
 
 	problem_044()
+	problem_045()
 }
 
 func problem_041() {
@@ -117,5 +118,34 @@ func problem_044() {
 		}
 		acc.Add(n)
 		i++
+	}
+}
+
+func problem_045() {
+	tri_number := func(n int) int {
+		return (n * (n + 1)) / 2
+	}
+	pent_number := func(n int) int {
+		return (n * (3*n - 1)) / 2
+	}
+	hent_number := func(n int) int {
+		return n * (2*n - 1)
+	}
+
+	pents, hents := NewSet[int](), NewSet[int]()
+
+	i := 286
+	for {
+		t := tri_number(i)
+		p := pent_number(i)
+		pents.Add(p)
+		h := hent_number(i)
+		hents.Add(h)
+		i++
+
+		if pents.Contains(t) && hents.Contains(t) {
+			fmt.Println("problem 045:", t)
+			return
+		}
 	}
 }
