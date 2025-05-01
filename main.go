@@ -2,17 +2,22 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 func main() {
-	// Problems_001_010()
-	// Problems_011_020()
-	// Problems_021_030()
-	// Problems_031_040()
 
-	// problem_041()
-	// problem_042()
-	// problem_043()
+	if len(os.Args) > 1 && os.Args[1] == "all" {
+		Problems_001_010()
+		Problems_011_020()
+		Problems_021_030()
+		Problems_031_040()
+
+		problem_041()
+		problem_042()
+		problem_043()
+	}
+
 	problem_044()
 }
 
