@@ -13,4 +13,22 @@ func main() {
 		Problems_031_040()
 		Problems_041_050()
 	}
+
+	problem_051()
+}
+
+func problem_051() {
+	extract_key := func(digits []int, positions []int) int {
+		transformer := func(i int) int {
+			if i < len(digits) {
+				return digits[i]
+			} else {
+				return 0
+			}
+		}
+		just_positions := transform(positions, transformer)
+		return digits_to_value(just_positions)
+	}
+
+	primes := prime_sieve(1_000_000)
 }
