@@ -256,23 +256,17 @@ func problem_049() {
 			continue
 		}
 
-		if perms[0] == 1487 {
-			fmt.Println("debug")
-		}
-
-		fmt.Println(perms)
-
-		diff := perms[1] - perms[0]
-		valid := true
-		for j := 1; j < len(perms)-1; j++ {
-			if perms[j+1]-perms[j] != diff {
-				valid = false
-				break
+		for i := 0; i < len(perms)-2; i++ {
+			for j := i + 1; j < len(perms)-1; j++ {
+				for k := j + 1; k < len(perms); k++ {
+					if perms[k]-perms[j] == perms[j]-perms[i] {
+						if perms[i] != 1487 {
+							fmt.Println("problem 049:", fmt.Sprintf("%v%v%v", perms[i], perms[j], perms[k]))
+							return
+						}
+					}
+				}
 			}
-		}
-
-		if valid {
-			fmt.Println(perms)
 		}
 	}
 }
