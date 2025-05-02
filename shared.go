@@ -121,6 +121,24 @@ func read_words(filename string) ([]string, error) {
 	return words, nil
 }
 
+func filter[T any](items []T, filter func(item T) bool) []T {
+	res := []T{}
+	for i := range items {
+		if filter(items[i]) {
+			res = append(res, items[i])
+		}
+	}
+	return res
+}
+
+func transform[T any, U any](items []T, selector func(item T) U) []U {
+	res := []U{}
+	for i := range items {
+		res = append(res, selector(items[i]))
+	}
+	return res
+}
+
 type Set[T comparable] map[T]struct{}
 
 func NewSet[T comparable](items ...T) Set[T] {

@@ -241,21 +241,38 @@ func problem_048() {
 }
 
 func problem_049() {
-	primes := NewSet(prime_sieve(10000)...)
+	in_range := func(i int) bool { return i >= 1000 && i <= 9999 }
+	primes := NewSet(filter(prime_sieve(10000), in_range)...)
+
 	for p := range primes {
-		if p < 1000 || p > 9999 {
+		digits := value_to_digits(p)
+
+		perms := transform(permute(digits), digits_to_value)
+		perms = filter(filter(perms, in_range), primes.Contains)
+		perms = NewSet(perms...).ToSlice()
+		slices.Sort(perms)
+
+		if len(perms) < 3 {
 			continue
 		}
-		digits := value_to_digits(p)
-		perms := permute(digits)
-		all := []int{}
-		for j := range perms {
-			o := digits_to_value(perms[j])
-			if o >= 1000 && o <= 9999 && primes.Contains(o) {
-				all = append(all, o)
+
+		if perms[0] == 1487 {
+			fmt.Println("debug")
+		}
+
+		fmt.Println(perms)
+
+		diff := perms[1] - perms[0]
+		valid := true
+		for j := 1; j < len(perms)-1; j++ {
+			if perms[j+1]-perms[j] != diff {
+				valid = false
+				break
 			}
 		}
-		slices.Sort(all)
-		fmt.Println(all)
+
+		if valid {
+			fmt.Println(perms)
+		}
 	}
 }
