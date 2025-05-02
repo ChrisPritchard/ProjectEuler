@@ -20,6 +20,7 @@ func main() {
 
 	problem_044()
 	problem_045()
+	problem_046()
 }
 
 func problem_041() {
@@ -145,6 +146,34 @@ func problem_045() {
 
 		if pents.Contains(t) && hents.Contains(t) {
 			fmt.Println("problem 045:", t)
+			return
+		}
+	}
+}
+
+func problem_046() {
+	primes := prime_sieve(1_000_000)
+	prime_set := NewSet(primes...)
+	power_dubs := NewSet(2)
+	for i := 2; i < 1_000; i++ {
+		power_dubs.Add(i * i * 2)
+	}
+
+	for i := 9; i < 1_000_000; i += 2 {
+		if prime_set.Contains(i) {
+			continue
+		}
+
+		found := false
+		for j := range primes {
+			rem := i - primes[j]
+			if power_dubs.Contains(rem) {
+				found = true
+				break
+			}
+		}
+		if !found {
+			fmt.Println("problem 046:", i)
 			return
 		}
 	}
