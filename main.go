@@ -21,6 +21,7 @@ func main() {
 	problem_044()
 	problem_045()
 	problem_046()
+	problem_047()
 }
 
 func problem_041() {
@@ -176,5 +177,46 @@ func problem_046() {
 			fmt.Println("problem 046:", i)
 			return
 		}
+	}
+}
+
+func problem_047() {
+	primes := prime_sieve(1_000_000)
+	prime_set := NewSet(primes...)
+
+	n := 4 // target consecutive number count
+	m := 4 // target distinct prime factors
+
+	count := 0
+	i := 3
+	for {
+		if prime_set.Contains(i) {
+			count = 0
+			i++
+			continue
+		}
+
+		rem := i
+		factors := NewSet[int]()
+		for rem > 1 {
+			for j := range primes {
+				p := primes[j]
+				if rem%p == 0 {
+					rem = rem / p
+					factors.Add(p)
+					break
+				}
+			}
+		}
+		if factors.Size() == m {
+			count++
+			if count == n {
+				fmt.Println("problem 047:", i-(n-1))
+				return
+			}
+		} else {
+			count = 0
+		}
+		i++
 	}
 }
