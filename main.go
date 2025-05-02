@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/big"
 	"os"
 )
 
@@ -22,6 +23,7 @@ func main() {
 	problem_045()
 	problem_046()
 	problem_047()
+	problem_048()
 }
 
 func problem_041() {
@@ -219,4 +221,19 @@ func problem_047() {
 		}
 		i++
 	}
+}
+
+func problem_048() {
+	n := big.NewInt(1)
+	for i := 2; i <= 1000; i++ {
+		o := big.NewInt(int64(i))
+		p := big.NewInt(int64(i))
+		for range i - 1 {
+			o.Mul(o, p)
+		}
+		n.Add(n, o)
+	}
+
+	s := n.String()
+	fmt.Println("problem 048:", s[len(s)-10:])
 }
