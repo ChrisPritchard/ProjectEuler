@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/big"
 	"os"
+	"slices"
 )
 
 func main() {
@@ -24,6 +25,7 @@ func main() {
 	problem_046()
 	problem_047()
 	problem_048()
+	problem_049()
 }
 
 func problem_041() {
@@ -236,4 +238,24 @@ func problem_048() {
 
 	s := n.String()
 	fmt.Println("problem 048:", s[len(s)-10:])
+}
+
+func problem_049() {
+	primes := NewSet(prime_sieve(10000)...)
+	for p := range primes {
+		if p < 1000 || p > 9999 {
+			continue
+		}
+		digits := value_to_digits(p)
+		perms := permute(digits)
+		all := []int{}
+		for j := range perms {
+			o := digits_to_value(perms[j])
+			if o >= 1000 && o <= 9999 && primes.Contains(o) {
+				all = append(all, o)
+			}
+		}
+		slices.Sort(all)
+		fmt.Println(all)
+	}
 }
