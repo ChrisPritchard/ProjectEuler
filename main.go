@@ -31,6 +31,8 @@ func problem_050() {
 				if m, exists := max[n]; !exists || m < j-i {
 					max[n] = j - i
 				}
+			} else if n > primes[len(primes)-1] {
+				break
 			}
 		}
 	}
