@@ -17,6 +17,7 @@ func main() {
 	}
 
 	problem_051()
+	problem_052()
 }
 
 func problem_051() {
@@ -83,5 +84,33 @@ func problem_051() {
 			}
 		}
 	}
+}
 
+func problem_052() {
+
+	ord := func(n int) []int {
+		d := value_to_digits(n)
+		slices.Sort(d)
+		return d
+	}
+
+	n := 101
+
+	for {
+		d := ord(n)
+
+		valid := slices.Compare(ord(2*n), d) == 0
+		valid = valid && slices.Compare(ord(3*n), d) == 0
+		valid = valid && slices.Compare(ord(4*n), d) == 0
+		valid = valid && slices.Compare(ord(5*n), d) == 0
+		valid = valid && slices.Compare(ord(6*n), d) == 0
+
+		if !valid {
+			n++
+			continue
+		}
+
+		fmt.Println("problem 052:", n)
+		return
+	}
 }
