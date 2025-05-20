@@ -5,6 +5,7 @@ import (
 	"math/big"
 	"os"
 	"slices"
+	"strings"
 )
 
 func main() {
@@ -164,5 +165,16 @@ func problem_053() {
 
 func problem_054() {
 	hands, _ := read_lines("./0054_poker.txt")
-	fmt.Println(len(hands))
+
+	hand_type := func(cards []string) int {
+
+	}
+
+	player_1_win_count := 0
+	for i := range hands {
+		cards := strings.Split(hands[i], " ")
+		player_1 := cards[:5]
+		player_2 := cards[5:]
+
+	}
 }
