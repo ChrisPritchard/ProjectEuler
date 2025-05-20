@@ -6,6 +6,7 @@ import (
 	"os"
 	"slices"
 	"strings"
+	"unicode"
 )
 
 func main() {
@@ -166,15 +167,61 @@ func problem_053() {
 func problem_054() {
 	hands, _ := read_lines("./0054_poker.txt")
 
-	hand_type := func(cards []string) int {
+	cards := transform(strings.Split(hands[0], " "), func(token string) int {
+		value := 0
+		if unicode.IsDigit(rune(token[0])) {
+			value = int(token[0]) - int('0')
+		} else if token[0] == 'J' {
+			value = 11
+		} else if token[0] == 'Q' {
+			value = 12
+		} else if token[0] == 'K' {
+			value = 13
+		} else {
+			value = 14
+		}
+		if token[1] == 'H' {
+			value += 400
+		} else if token[1] == 'D' {
+			value += 300
+		} else if token[1] == 'S' {
+			value += 200
+		} else {
+			value += 100
+		}
+		return value
+	})
 
+	player_1 := cards[:5]
+
+	is_royal_flush := func(cards []int) bool {
+		same_suit := NewSet(transform(cards, func(n int) int { return n / 100 })...).Size() == 1
+		if same_suit {
+			slices.Sort(cards)
+			return cards[0]%100 == 10
+		} else {
+			return false
+		}
 	}
 
-	player_1_win_count := 0
-	for i := range hands {
-		cards := strings.Split(hands[i], " ")
-		player_1 := cards[:5]
-		player_2 := cards[5:]
-
+	is_straight := func(cards []int) bool {
+		same_suit := NewSet(transform(cards, func(n int) int { return n / 100 })...).Size() == 1
+		if same_suit {
+			slices.Sort(cards)
+			return cards[4]-cards[0] == 4
+		} else {
+			return false
+		}
 	}
+
+	// player_2 := cards[5:]
+
+	// hand_type := func(cards []string) int {
+
+	// }
+
+	// player_1_win_count := 0
+	// for i := range hands {
+
+	// }
 }
