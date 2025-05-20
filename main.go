@@ -20,6 +20,7 @@ func main() {
 	problem_051()
 	problem_052()
 	problem_053()
+	problem_054()
 }
 
 func problem_051() {
@@ -159,4 +160,9 @@ func problem_053() {
 	}
 
 	fmt.Println("problem 053:", count)
+}
+
+func problem_054() {
+	hands, _ := read_lines("./0054_poker.txt")
+	fmt.Println(len(hands))
 }
