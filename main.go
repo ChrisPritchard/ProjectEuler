@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/big"
 	"os"
 	"slices"
 )
@@ -18,6 +19,7 @@ func main() {
 
 	problem_051()
 	problem_052()
+	problem_053()
 }
 
 func problem_051() {
@@ -113,4 +115,48 @@ func problem_052() {
 		fmt.Println("problem 052:", n)
 		return
 	}
+}
+
+func problem_053() {
+	memo := make(map[int]*big.Int)
+	memo[0] = big.NewInt(0)
+	var fact func(int) *big.Int
+	fact = func(n int) *big.Int {
+		if n <= 1 {
+			return big.NewInt(1)
+		}
+		if v, exists := memo[n]; exists {
+			return v
+		}
+		v := big.NewInt(int64(n))
+		o := fact(n - 1)
+		r := big.NewInt(0)
+		r.Mul(v, o)
+		memo[n] = r
+		return r
+	}
+
+	nr := func(n, r int) *big.Int {
+		num := fact(n)
+		denom1 := fact(r)
+		denom2 := fact(n - r)
+		denom := big.NewInt(0)
+		denom.Mul(denom1, denom2)
+		res := big.NewInt(0)
+		res.Div(num, denom)
+		return res
+	}
+
+	count := 0
+	target := big.NewInt(1_000_000)
+	for i := 1; i <= 100; i++ {
+		for j := 1; j <= i; j++ {
+			v := nr(i, j)
+			if v.Cmp(target) > 0 {
+				count++
+			}
+		}
+	}
+
+	fmt.Println("problem 053:", count)
 }
