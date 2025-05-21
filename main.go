@@ -200,7 +200,7 @@ func problem_054() {
 	}
 
 	hand_type := func(cards []int) int {
-		slices.Sort(cards)
+		cards = sort_by(cards, func(c int) int { return c % 100 })
 		same_suit := NewSet(transform(cards, func(n int) int { return n / 100 })...).Size() == 1
 
 		if same_suit && cards[0]%100 == 10 {
@@ -210,7 +210,7 @@ func problem_054() {
 		}
 
 		grouper := func(card int) int { return card % 100 }
-		sortkey := func(pair KeyValue[int, []int]) int { return len(pair.Value) }
+		sortkey := func(pair KeyValue[int, []int]) int { return len(pair.Value)*100 + pair.Key }
 		grouped := sort_by(to_slice(group_by(cards, grouper)), sortkey)
 
 		if len(grouped) == 2 && len(grouped[1].Value) == 4 {
@@ -218,7 +218,7 @@ func problem_054() {
 		}
 
 		if len(grouped) == 2 && len(grouped[1].Value) == 3 {
-			return 7 // full hourse
+			return 7 // full house
 		}
 
 		if same_suit {
@@ -246,7 +246,7 @@ func problem_054() {
 
 	first_higher_card := func(p1 []int, p2 []int) bool {
 		grouper := func(card int) int { return card % 100 }
-		sortkey := func(pair KeyValue[int, []int]) int { return len(pair.Value) }
+		sortkey := func(pair KeyValue[int, []int]) int { return len(pair.Value)*100 + pair.Key }
 
 		grouped1 := sort_by(to_slice(group_by(p1, grouper)), sortkey)
 		grouped2 := sort_by(to_slice(group_by(p2, grouper)), sortkey)
