@@ -23,6 +23,7 @@ func main() {
 	problem_052()
 	problem_053()
 	problem_054()
+	problem_055()
 }
 
 func problem_051() {
@@ -271,4 +272,45 @@ func problem_054() {
 	}
 
 	fmt.Println("problem 054:", p1_wins)
+}
+
+func problem_055() {
+	is_palindrome := func(num *big.Int) bool {
+		digits := num.String()
+		for i := range len(digits) / 2 {
+			if digits[i] != digits[len(digits)-1-i] {
+				return false
+			}
+		}
+		return true
+	}
+
+	rev := func(i *big.Int) *big.Int {
+		s := i.String()
+		r := ""
+		for _, v := range s {
+			r = string(v) + r
+		}
+		res := big.NewInt(0)
+		res.SetString(r, 10)
+		return res
+	}
+
+	count := 0
+	for i := range 10_000 {
+		n := big.NewInt(int64(i))
+		lychrel := true
+		for range 50 {
+			n.Add(n, rev(n))
+			if is_palindrome(n) {
+				lychrel = false
+				break
+			}
+		}
+		if lychrel {
+			count++
+		}
+	}
+
+	fmt.Println("problem 055:", count)
 }
