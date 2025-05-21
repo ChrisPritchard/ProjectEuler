@@ -165,10 +165,15 @@ func problem_053() {
 }
 
 func problem_054() {
+	type card struct {
+		suit  byte
+		value int
+	}
+
 	games, _ := read_lines("./0054_poker.txt")
 
-	cards := func(hand []string) []int {
-		return transform(hand, func(token string) int {
+	cards := func(hand []string) []card {
+		return transform(hand, func(token string) card {
 			value := 0
 
 			if unicode.IsDigit(rune(token[0])) {
@@ -185,32 +190,22 @@ func problem_054() {
 				value = 14
 			}
 
-			if token[1] == 'H' {
-				value += 400
-			} else if token[1] == 'D' {
-				value += 300
-			} else if token[1] == 'S' {
-				value += 200
-			} else {
-				value += 100
-			}
-
-			return value
+			return card{value: value, suit: token[1]}
 		})
 	}
 
-	hand_type := func(cards []int) int {
-		cards = sort_by(cards, func(c int) int { return c % 100 })
-		same_suit := NewSet(transform(cards, func(n int) int { return n / 100 })...).Size() == 1
+	hand_type := func(cards []card) int {
+		cards = sort_by(cards, func(c card) int { return c.value })
+		same_suit := NewSet(transform(cards, func(n card) byte { return n.suit })...).Size() == 1
 
-		if same_suit && cards[0]%100 == 10 {
+		if same_suit && cards[0].value == 10 {
 			return 10 // royal flush
-		} else if same_suit && cards[4]-cards[0] == 4 {
+		} else if same_suit && cards[4].value-cards[0].value == 4 {
 			return 9 // straight flush
 		}
 
-		grouper := func(card int) int { return card % 100 }
-		sortkey := func(pair KeyValue[int, []int]) int { return len(pair.Value)*100 + pair.Key }
+		grouper := func(card card) int { return card.value }
+		sortkey := func(pair KeyValue[int, []card]) int { return len(pair.Value)*100 + pair.Key }
 		grouped := sort_by(to_slice(group_by(cards, grouper)), sortkey)
 
 		if len(grouped) == 2 && len(grouped[1].Value) == 4 {
@@ -225,7 +220,7 @@ func problem_054() {
 			return 6 // flush
 		}
 
-		if len(grouped) == 5 && cards[4]-cards[0] == 4 {
+		if len(grouped) == 5 && cards[4].value-cards[0].value == 4 {
 			return 5 // straight
 		}
 
@@ -244,9 +239,9 @@ func problem_054() {
 		return 1 // high card
 	}
 
-	first_higher_card := func(p1 []int, p2 []int) bool {
-		grouper := func(card int) int { return card % 100 }
-		sortkey := func(pair KeyValue[int, []int]) int { return len(pair.Value)*100 + pair.Key }
+	first_higher_card := func(p1 []card, p2 []card) bool {
+		grouper := func(card card) int { return card.value }
+		sortkey := func(pair KeyValue[int, []card]) int { return len(pair.Value)*100 + pair.Key }
 
 		grouped1 := sort_by(to_slice(group_by(p1, grouper)), sortkey)
 		grouped2 := sort_by(to_slice(group_by(p2, grouper)), sortkey)
@@ -270,9 +265,7 @@ func problem_054() {
 		p1_hand := hand_type(player_1)
 		p2_hand := hand_type(player_2)
 
-		if p1_hand > p2_hand {
-			p1_wins++
-		} else if p1_hand == p2_hand && first_higher_card(player_1, player_2) {
+		if p1_hand > p2_hand || (p1_hand == p2_hand && first_higher_card(player_1, player_2)) {
 			p1_wins++
 		}
 	}
