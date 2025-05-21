@@ -194,24 +194,18 @@ func problem_054() {
 
 	player_1 := cards[:5]
 
-	is_royal_flush := func(cards []int) bool {
+	type := func(cards []int) int {
+		slices.Sort(cards)
 		same_suit := NewSet(transform(cards, func(n int) int { return n / 100 })...).Size() == 1
-		if same_suit {
-			slices.Sort(cards)
-			return cards[0]%100 == 10
-		} else {
-			return false
+		
+		if same_suit && cards[0]%100 == 10 {
+			return 10 // royal flush
+		} else if same_suit && cards[4]-cards[0] == 4 {
+			return 9 // straight
 		}
-	}
 
-	is_straight := func(cards []int) bool {
-		same_suit := NewSet(transform(cards, func(n int) int { return n / 100 })...).Size() == 1
-		if same_suit {
-			slices.Sort(cards)
-			return cards[4]-cards[0] == 4
-		} else {
-			return false
-		}
+		grouped := group_by(cards, func(c int) int { return c % 100})
+		
 	}
 
 	// player_2 := cards[5:]
