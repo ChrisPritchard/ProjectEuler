@@ -24,6 +24,7 @@ func main() {
 	problem_053()
 	problem_054()
 	problem_055()
+	problem_056()
 }
 
 func problem_051() {
@@ -313,4 +314,30 @@ func problem_055() {
 	}
 
 	fmt.Println("problem 055:", count)
+}
+
+func problem_056() {
+	calc_sum := func(a, b int) int {
+		p := big.NewInt(int64(a))
+		n := big.NewInt(100)
+		for range b {
+			n.Mul(n, p)
+		}
+		sum := 0
+		for _, c := range n.String() {
+			sum += int(c) - int('0')
+		}
+		return sum
+	}
+	max := 0
+	for i := range 100 {
+		for j := range 100 {
+			v := calc_sum(i, j)
+			if v > max {
+				max = v
+			}
+		}
+	}
+
+	fmt.Println("problem 056:", max)
 }
