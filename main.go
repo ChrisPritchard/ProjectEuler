@@ -165,57 +165,117 @@ func problem_053() {
 }
 
 func problem_054() {
-	hands, _ := read_lines("./0054_poker.txt")
+	games, _ := read_lines("./0054_poker.txt")
 
-	cards := transform(strings.Split(hands[0], " "), func(token string) int {
-		value := 0
-		if unicode.IsDigit(rune(token[0])) {
-			value = int(token[0]) - int('0')
-		} else if token[0] == 'J' {
-			value = 11
-		} else if token[0] == 'Q' {
-			value = 12
-		} else if token[0] == 'K' {
-			value = 13
-		} else {
-			value = 14
-		}
-		if token[1] == 'H' {
-			value += 400
-		} else if token[1] == 'D' {
-			value += 300
-		} else if token[1] == 'S' {
-			value += 200
-		} else {
-			value += 100
-		}
-		return value
-	})
+	cards := func(hand []string) []int {
+		return transform(hand, func(token string) int {
+			value := 0
 
-	player_1 := cards[:5]
+			if unicode.IsDigit(rune(token[0])) {
+				value = int(token[0]) - int('0')
+			} else if token[0] == 'T' {
+				value = 10
+			} else if token[0] == 'J' {
+				value = 11
+			} else if token[0] == 'Q' {
+				value = 12
+			} else if token[0] == 'K' {
+				value = 13
+			} else {
+				value = 14
+			}
 
-	type := func(cards []int) int {
+			if token[1] == 'H' {
+				value += 400
+			} else if token[1] == 'D' {
+				value += 300
+			} else if token[1] == 'S' {
+				value += 200
+			} else {
+				value += 100
+			}
+
+			return value
+		})
+	}
+
+	hand_type := func(cards []int) int {
 		slices.Sort(cards)
 		same_suit := NewSet(transform(cards, func(n int) int { return n / 100 })...).Size() == 1
-		
+
 		if same_suit && cards[0]%100 == 10 {
 			return 10 // royal flush
 		} else if same_suit && cards[4]-cards[0] == 4 {
-			return 9 // straight
+			return 9 // straight flush
 		}
 
-		grouped := group_by(cards, func(c int) int { return c % 100})
-		
+		grouper := func(card int) int { return card % 100 }
+		sortkey := func(pair KeyValue[int, []int]) int { return len(pair.Value) }
+		grouped := sort_by(to_slice(group_by(cards, grouper)), sortkey)
+
+		if len(grouped) == 2 && len(grouped[1].Value) == 4 {
+			return 8 // four of a kind
+		}
+
+		if len(grouped) == 2 && len(grouped[1].Value) == 3 {
+			return 7 // full hourse
+		}
+
+		if same_suit {
+			return 6 // flush
+		}
+
+		if len(grouped) == 5 && cards[4]-cards[0] == 4 {
+			return 5 // straight
+		}
+
+		if len(grouped) == 3 && len(grouped[2].Value) == 3 {
+			return 4 // three of a kind
+		}
+
+		if len(grouped) == 3 && len(grouped[2].Value) == 2 {
+			return 3 // two pair
+		}
+
+		if len(grouped) == 4 {
+			return 2 // one pair
+		}
+
+		return 1 // high card
 	}
 
-	// player_2 := cards[5:]
+	first_higher_card := func(p1 []int, p2 []int) bool {
+		grouper := func(card int) int { return card % 100 }
+		sortkey := func(pair KeyValue[int, []int]) int { return len(pair.Value) }
 
-	// hand_type := func(cards []string) int {
+		grouped1 := sort_by(to_slice(group_by(p1, grouper)), sortkey)
+		grouped2 := sort_by(to_slice(group_by(p2, grouper)), sortkey)
 
-	// }
+		for i := len(grouped1) - 1; i >= 0; i-- {
+			if grouped1[i].Key > grouped2[i].Key {
+				return true
+			} else if grouped1[i].Key < grouped2[i].Key {
+				return false
+			}
+		}
 
-	// player_1_win_count := 0
-	// for i := range hands {
+		panic("failed to calculate winner")
+	}
 
-	// }
+	p1_wins := 0
+	for i := range games {
+		all_cards := strings.Split(games[i], " ")
+		player_1 := cards(all_cards[:5])
+		player_2 := cards(all_cards[5:])
+		p1_hand := hand_type(player_1)
+		p2_hand := hand_type(player_2)
+
+		if p1_hand > p2_hand {
+			p1_wins++
+		} else if p1_hand == p2_hand && first_higher_card(player_1, player_2) {
+			p1_wins++
+		}
+	}
+
+	fmt.Println("problem 054:", p1_wins)
 }

@@ -1,5 +1,10 @@
 package main
 
+import (
+	"cmp"
+	"sort"
+)
+
 // returns a new slice containing only those items that the filter function returns true for
 func filter[T any](items []T, filter func(item T) bool) []T {
 	res := []T{}
@@ -41,4 +46,25 @@ func group_by[T any, U comparable](items []T, selector func(item T) U) map[U][]T
 		}
 	}
 	return res
+}
+
+func sort_by[T any, K cmp.Ordered](items []T, selector func(T) K) []T {
+	sorted := append([]T(nil), items...)
+	sort.Slice(sorted, func(i, j int) bool {
+		return selector(sorted[i]) < selector(sorted[j])
+	})
+	return sorted
+}
+
+type KeyValue[K comparable, V any] struct {
+	Key   K
+	Value V
+}
+
+func to_slice[K comparable, V any](m map[K]V) []KeyValue[K, V] {
+	values := []KeyValue[K, V]{}
+	for k, v := range m {
+		values = append(values, KeyValue[K, V]{Key: k, Value: v})
+	}
+	return values
 }
